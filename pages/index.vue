@@ -17,7 +17,7 @@
               <v-card class="elevation-0 pa-2">
                 <v-card-title primary-title>
                   <div>
-                    <h4 class="headline mb-0">SIGN IN TO AWS COGNITO</h4>
+                    <h4 class="headline mb-0">Sign In to AWS Cognito</h4>
                   </div>
                 </v-card-title>
                 <v-card-text>
@@ -49,15 +49,14 @@
                     :loading="loading"
                     @click.native="onSubmit()"
                     :disabled="!valid"
-                    class="mt-4 mb-4"
+                    class="mt-3 mb-3"
                     light
                     color="secondary">
                     Sign In
                   </v-btn>
                   <div>
-                    Forgot password?
+                    <router-link :to="'reset'">Forgot password?</router-link>
                   </div>
-
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -84,20 +83,20 @@ export default {
         (v) => !!v || 'Password is required',
         (v) => v.length >= 8 || 'Password must be at least 8 characters'
       ],
-      hidepw: false,
+      hidepw: true,
       loader: false,
       loading: false,
   }),
   methods: {
     onSubmit () {
-      this.oader = 'loading'
+      this.loader = 'loading'
       console.log("called");
       console.log(this.email);
       console.log(this.password);
       this.hide = !this.hide;
     },
     navRreset: function () {
-      router.push('/reset')
+      $router.push('/reset')
     },
   },
   watch: {
@@ -120,8 +119,11 @@ export default {
     height: 100%;
     object-fit: contain;
 }
+a {
+  text-decoration: none;
+}
 
-.card-footer{
-  background-color:blueviolet;
+a:hover {
+  text-decoration: underline;
 }
 </style>

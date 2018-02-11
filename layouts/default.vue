@@ -30,10 +30,12 @@
 export default {
   methods: {
     navDefault: function () {
-      this.router.push('/')
+      console.log('navigatig to sign in')
+      this.$router.push('/')
     },
     navRegister: function () {
-      this.router.push('/')
+      console.log('navigatig to sign up')
+      this.$router.push('/register')
     }
   }
 }

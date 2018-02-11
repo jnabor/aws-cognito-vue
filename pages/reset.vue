@@ -17,7 +17,7 @@
               <v-card class="elevation-0 pa-2">
                 <v-card-title primary-title>
                   <div>
-                    <h3 class="headline mb-0">Reset Password</h3>
+                    <h4 class="headline mb-0">Reset Password</h4>
                   </div>
                 </v-card-title>
                 <v-card-text>
@@ -31,34 +31,21 @@
                       required>
                     </v-text-field>
 
-                    <v-text-field
-                      label="Password"
-                      v-model="password"
-                      hint="At least 8 characters"
-                      :append-icon="e1 ? 'visibility' : 'visibility_off'"
-                      :append-icon-cb="() => (e1 = !e1)"
-                      :type="e1 ? 'password' : 'text'"
-                      min="8"
-                      counter
-                      required>
-                    </v-text-field>
-
                   </v-form>
 
                   <v-btn
                     block
                     :loading="loading"
-                    @click.native="loader = 'loading'"
+                    @click.native="onSubmit()"
                     :disabled="!valid"
-                    class="mt-4"
+                    class="mt-3 mb-3"
                     light
                     color="secondary">
-                    Sign In
+                    Reset
                   </v-btn>
-
-                  <br />
-                  forgot password?  link
-
+                  <div class="caption">
+                    A reset link will be sent to the email address provided.
+                  </div>
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -74,28 +61,25 @@
 
 export default {
   data: () => ({
-      hide: true,
       valid: false,
       email: '',
       emailRules: [
         (v) => !!v || 'E-mail is required',
         (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
       ],
-      name: '',
-      nameRules: [
-        (v) => !!v || 'Name is required',
-        (v) => v.length <= 10 || 'Name must be less than 10 characters'
-      ],
-      e1: false,
-      password: '',
       loader: false,
       loading: false,
   }),
   methods: {
-    toggleHide () {
+    onSubmit () {
+      this.loader = 'loading'
       console.log("called");
+      console.log(this.email);
       this.hide = !this.hide;
-    }
+    },
+    navRreset: function () {
+      $router.push('/reset')
+    },
   },
   watch: {
     loader () {
@@ -117,8 +101,11 @@ export default {
     height: 100%;
     object-fit: contain;
 }
+a {
+  text-decoration: none;
+}
 
-.card-footer{
-  background-color:blueviolet;
+a:hover {
+  text-decoration: underline;
 }
 </style>
