@@ -1,43 +1,124 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
-      <div class="text-xs-center">
-        <logo/>
-        <vuetify-logo/>
-      </div>
-      <v-card>
-        <v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template</v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>For more information on Vuetify, check out the <a href="https://vuetifyjs.com" target="_blank">documentation</a>.</p>
-          <p>If you have questions, please join the official <a href="https://chat.vuetifyjs.com/" target="_blank" title="chat">discord</a>.</p>
-          <p>Find a bug? Report it on the github <a href="https://github.com/vuetifyjs/vuetify/issues" target="_blank" title="contribute">issue board</a>.</p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a href="https://nuxtjs.org/" target="_blank">Nuxt Documentation</a>
-          <br>
-          <a href="https://github.com/nuxt/nuxt.js" target="_blank">Nuxt GitHub</a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" flat nuxt to="/inspire">Continue</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <v-container grid-list-md class="mt-3">
+    <v-layout row wrap justify-center>
+      <v-flex xs8>
+        <v-card class="pa-4">
+          <v-layout row >
+
+            <v-flex xs4>
+              <v-card class="elevation-0 pa-2">
+                <v-card-media >
+                <img class="aws-logo" src="/aws_cognito.png">
+                </v-card-media>
+              </v-card>
+            </v-flex>
+
+            <v-flex xs6>
+              <v-card class="elevation-0 pa-2">
+                <v-card-title primary-title>
+                  <div>
+                    <h3 class="headline mb-0">Sign In to AWS Cognito</h3>
+                  </div>
+                </v-card-title>
+                <v-card-text>
+
+                  <v-form v-model="valid">
+
+                    <v-text-field
+                      label="E-mail"
+                      v-model="email"
+                      :rules="emailRules"
+                      required>
+                    </v-text-field>
+
+                    <v-text-field
+                      label="Password"
+                      v-model="password"
+                      hint="At least 8 characters"
+                      :append-icon="e1 ? 'visibility' : 'visibility_off'"
+                      :append-icon-cb="() => (e1 = !e1)"
+                      :type="e1 ? 'password' : 'text'"
+                      min="8"
+                      counter
+                      required>
+                    </v-text-field>
+
+                  </v-form>
+
+                  <v-btn
+                    block
+                    :loading="loading"
+                    @click.native="loader = 'loading'"
+                    :disabled="!valid"
+                    class="mt-4"
+                    light
+                    color="secondary">
+                    Sign In
+                  </v-btn>
+
+                  <br />
+                  forgot password?  link
+
+                </v-card-text>
+              </v-card>
+            </v-flex>
+
+         </v-layout>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
+  data: () => ({
+      hide: true,
+      valid: false,
+      email: '',
+      emailRules: [
+        (v) => !!v || 'E-mail is required',
+        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      ],
+      name: '',
+      nameRules: [
+        (v) => !!v || 'Name is required',
+        (v) => v.length <= 10 || 'Name must be less than 10 characters'
+      ],
+      e1: false,
+      password: '',
+      loader: false,
+      loading: false,
+  }),
+  methods: {
+    toggleHide () {
+      console.log("called");
+      this.hide = !this.hide;
+    }
+  },
+  watch: {
+    loader () {
+      const l = this.loader
+      this[l] = !this[l]
+
+      setTimeout(() => (this[l] = false), 3000)
+
+      this.loader = null
+    }
   }
 }
+
 </script>
+
+<style scoped>
+.aws-logo {
+  width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.card-footer{
+  background-color:blueviolet;
+}
+</style>
