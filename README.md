@@ -1,6 +1,8 @@
 # aws-cognito-nuxt
 
-> My polished Nuxt.js project
+Authentication with AWS Cognito using Vue.js
+The application is pre-rendered on the server side using Nuxt.js
+Live Demo: http://auth-cognito-demo.s3-website-ap-southeast-1.amazonaws.com/
 
 ## Build Setup
 
@@ -18,5 +20,3 @@ $ npm start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
