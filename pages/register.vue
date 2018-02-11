@@ -17,7 +17,7 @@
               <v-card class="elevation-0 pa-2">
                 <v-card-title primary-title>
                   <div>
-                    <h4 class="headline mb-0">SIGN IN TO AWS COGNITO</h4>
+                    <h3 class="headline mb-0">Register to AWS Cognito</h3>
                   </div>
                 </v-card-title>
                 <v-card-text>
@@ -34,11 +34,12 @@
                     <v-text-field
                       label="Password"
                       v-model="password"
-                      :rules="passRules"
                       hint="At least 8 characters"
-                      :append-icon="hidepw ? 'visibility' : 'visibility_off'"
-                      :append-icon-cb="() => (hidepw = !hidepw)"
-                      :type="hidepw ? 'password' : 'text'"
+                      :append-icon="e1 ? 'visibility' : 'visibility_off'"
+                      :append-icon-cb="() => (e1 = !e1)"
+                      :type="e1 ? 'password' : 'text'"
+                      min="8"
+                      counter
                       required>
                     </v-text-field>
 
@@ -47,16 +48,16 @@
                   <v-btn
                     block
                     :loading="loading"
-                    @click.native="onSubmit()"
+                    @click.native="loader = 'loading'"
                     :disabled="!valid"
-                    class="mt-4 mb-4"
+                    class="mt-4"
                     light
                     color="secondary">
                     Sign In
                   </v-btn>
-                  <div>
-                    Forgot password?
-                  </div>
+
+                  <br />
+                  forgot password?  link
 
                 </v-card-text>
               </v-card>
@@ -73,32 +74,28 @@
 
 export default {
   data: () => ({
+      hide: true,
       valid: false,
       email: '',
       emailRules: [
         (v) => !!v || 'E-mail is required',
         (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
       ],
-      password: '',
-      passRules: [
-        (v) => !!v || 'Password is required',
-        (v) => v.length >= 8 || 'Password must be at least 8 characters'
+      name: '',
+      nameRules: [
+        (v) => !!v || 'Name is required',
+        (v) => v.length <= 10 || 'Name must be less than 10 characters'
       ],
-      hidepw: false,
+      e1: false,
+      password: '',
       loader: false,
       loading: false,
   }),
   methods: {
-    onSubmit () {
-      this.oader = 'loading'
+    toggleHide () {
       console.log("called");
-      console.log(this.email);
-      console.log(this.password);
       this.hide = !this.hide;
-    },
-    navRreset: function () {
-      router.push('/reset')
-    },
+    }
   },
   watch: {
     loader () {

@@ -9,8 +9,8 @@
           <v-toolbar-title class="white--text">Auth</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items >
-            <v-btn class="white--text" flat>Sign In</v-btn>
-            <v-btn class="white--text" flat>Register</v-btn>
+            <v-btn class="white--text" @click="navDefault()" flat>Sign In</v-btn>
+            <v-btn class="white--text" @click="navRegister()" flat>Register</v-btn>
           </v-toolbar-items>
         </v-toolbar>
       </v-flex>
@@ -27,9 +27,16 @@
 </template>
 
 <script>
-  export default {
-
+export default {
+  methods: {
+    navDefault: function () {
+      this.router.push('/')
+    },
+    navRegister: function () {
+      this.router.push('/')
+    }
   }
+}
 </script>
 
 <style>
