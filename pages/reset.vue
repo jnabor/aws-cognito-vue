@@ -1,11 +1,13 @@
 <template>
   <v-container grid-list-md class="mt-3">
-    <v-layout row wrap justify-center>
-      <v-flex xs8>
-        <v-card class="pa-4">
-          <v-layout row >
+    <v-layout row justify-space-around>
 
-            <v-flex xs4>
+        <v-card class="main-card pa-4 ml-4 mr-4">
+          <v-layout row wrap justify-space-around>
+
+            <v-flex md1 class="hidden-sm-and-down">
+            </v-flex>
+            <v-flex md4 class="hidden-sm-and-down">
               <v-card class="elevation-0 pa-2">
                 <v-card-media >
                 <img class="aws-logo" src="/aws_cognito.png">
@@ -13,8 +15,8 @@
               </v-card>
             </v-flex>
 
-            <v-flex xs6>
-              <v-card class="elevation-0 pa-2">
+            <v-flex md6>
+              <v-card class="elevation-0 pa-2 ml-1 mr-1">
                 <v-card-title primary-title>
                   <div>
                     <h4 class="headline mb-0">Reset Password</h4>
@@ -49,10 +51,12 @@
                 </v-card-text>
               </v-card>
             </v-flex>
+            <v-flex md1 class="hidden-sm-and-down">
+            </v-flex>
 
          </v-layout>
         </v-card>
-      </v-flex>
+
     </v-layout>
   </v-container>
 </template>
