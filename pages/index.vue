@@ -73,6 +73,7 @@
 </template>
 
 <script>
+var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 
 export default {
   data: () => ({
@@ -95,13 +96,34 @@ export default {
       hidepw: true,
       loader: false,
       loading: false,
+      poolData: {
+        UserPoolId: 'us-east-2_ybx9ttSac',
+        ClientId: '5gcb6n0l422h0a23p52j2jb8kj'
+      },
+      userPool: ''
   }),
   methods: {
     onSubmit () {
 
       this.loader = 'loading'
-      console.log('sign in: ' + this.email + ' ' + this.password)
+      console.log('register with ' + this.email + ' ' + this.password)
+      this.dataEmail.Value = this.email
+      this.attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(this.dataEmail);
+      this.attributeList.push(this.attributeEmail)
+      console.log('attributes: ' + this.attributeList)
 
+      this.userPool = new AmazonCognitoIdentity.CognitoUserPool(this.poolData);
+      this.userPool.signUp(this.email, this.password, this.attributeList, null, (err, result) => {
+
+        console.log('sign up callback')
+                if (err) {
+                    console.log('sign up error: ' + err)
+                    return
+                }
+                console.log('sign up success: ' + result)
+                cognitoUser = result.user;
+                console.log('user name is ' + cognitoUser.getUsername());
+      });
     },
     navRreset: function () {
       $router.push('/reset')
