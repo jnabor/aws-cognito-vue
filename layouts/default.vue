@@ -33,7 +33,7 @@
   <nuxt />
 
   <v-footer fixed app>
-    <span>&copy; 2018 SonabStudios&trade;</span>
+    <span>&copy; 2018 <a href="http://sonabstudios.com">SonabStudios&trade;</a> is a trademark of Jayson Nabor</span>
   </v-footer>
 
   </v-app>

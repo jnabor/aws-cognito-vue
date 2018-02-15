@@ -77,30 +77,36 @@
 export default {
   data: () => ({
       valid: false,
-      email: '',
+      email: 'sonabstudios@gmail.com',
       emailRules: [
         (v) => !!v || 'E-mail is required',
         (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
       ],
-      password: '',
+      password: 'Gr@ffiti22',
       passRules: [
         (v) => !!v || 'Password is required',
         (v) => v.length >= 8 || 'Password must be at least 8 characters'
       ],
+      attributeList: [],
+      dataEmail: {
+        Name : 'email',
+        Value : ''
+      },
       hidepw: true,
       loader: false,
       loading: false,
   }),
   methods: {
     onSubmit () {
+
       this.loader = 'loading'
-      console.log("called");
-      console.log(this.email);
-      console.log(this.password);
-      this.hide = !this.hide;
+      console.log('sign in: ' + this.email + ' ' + this.password)
+
     },
     navRreset: function () {
       $router.push('/reset')
+
+
     },
   },
   watch: {
@@ -108,7 +114,7 @@ export default {
       const l = this.loader
       this[l] = !this[l]
 
-      setTimeout(() => (this[l] = false), 3000)
+      setTimeout(() => (this[l] = false), 1000)
 
       this.loader = null
     }

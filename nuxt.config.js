@@ -9,7 +9,10 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'AWS Cognito Authentication',
+    script: [
+      { src: './aws/aws-sdk-2.195.0.min.js'}
+    ],
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -37,8 +40,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/vuetify',
-    '@/plugins/vuelidate'
+    '@/plugins/vuetify'
   ],
 
   /*
