@@ -17,6 +17,9 @@
 
             <v-flex md6>
               <v-card class="elevation-0 pa-2 ml-1 mr-1">
+                <v-alert outline type="error" dismissible class="ml-3 mr-3" v-model="showerr">
+                      {{ errmsg }}
+                    </v-alert>
                 <v-card-title primary-title>
                   <div>
                     <h4 class="headline mb-0">Register to AWS Cognito</h4>
@@ -54,12 +57,10 @@
                     light
                     color="secondary">
                     Sign Up
+                    <span slot="loader">Connecting...</span>
                   </v-btn>
                   <div class="caption">
                     By signing up, you agree to the <router-link :to="''">Terms of Service</router-link> and <router-link :to="''">Privacy Policy</router-link>, including Cookie Use.
-                  </div>
-                  <div class="caption">
-                    <h4>asdsdasdasd</h4>
                   </div>
                 </v-card-text>
               </v-card>
@@ -94,7 +95,10 @@ export default {
   data: function () {
     return {
       callback: false,
-      message: '',
+      showerr: false,
+      errcode: '',
+      errmsg: '',
+      username: '',
       valid: false,
       email: 'sonabstudios@gmail.com',
       emailRules: [
@@ -119,6 +123,8 @@ export default {
   methods: {
     onSubmit () {
       this.loader = 'loading'
+      const l = this.loader
+      this[l] = !this[l]
 
       dataEmail.Value = this.email
       var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail)
@@ -127,17 +133,23 @@ export default {
       userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
       console.log('sign up with: ' + this.email + ' ' + this.password)
       this.callback = false
+      this.errcode = ''
+      this.username = ''
 
       userPool.signUp(this.email, this.password, attributeList, null, (err, result) => {
         if (!this.callback) {
           console.log('register callback')
           if (err) {
             console.log('registration error: ' + JSON.stringify(err))
+            this.errcode = JSON.stringify(err.code)
           } else {
             console.log('registration success: ' + JSON.stringify(result))
             this.message = JSON.stringify(result.message)
             console.log('user name is ' + result.user.getUsername())
+            this.username = JSON.stringify(result.user.getUsername())
           }
+          this[l] = false
+          this.loader = null
           this.callback = true
         }
       })
@@ -150,11 +162,21 @@ export default {
     }
   },
   watch: {
-    loader () {
-      const l = this.loader
-      this[l] = !this[l]
-      setTimeout(() => (this[l] = false), 1000)
-      this.loader = null
+    username () {
+      if ((this.username != null) && (this.errcode === '')) {
+        router.push('/confirm')
+      }
+    },
+    errcode () {
+      console.log('watched error code: ' + this.errcode)
+      if (this.errcode !== '') {
+        if (this.errcode === '"UsernameExistsException"') {
+          this.errmsg = 'An account with the given email already exists!'
+        } else {
+          this.errmsg = 'Internal error!'
+        }
+        this.showerr = true
+      }
     }
   }
 }
