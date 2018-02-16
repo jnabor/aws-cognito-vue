@@ -17,6 +17,9 @@
 
             <v-flex md6>
               <v-card class="elevation-0 pa-2 ml-1 mr-1">
+                <v-alert outline type="error" dismissible class="ml-3 mr-3" v-model="showerr">
+                  {{ errmsg }}
+                </v-alert>
                 <v-card-title primary-title>
                   <div>
                     <h4 class="headline mb-0">Enter Confirmation Code</h4>
@@ -28,6 +31,7 @@
                     <v-text-field
                       label="Confirmation Code"
                       v-model="code"
+                      :rules="codeRules"
                       required>
                     </v-text-field>
                   </v-form>
@@ -41,6 +45,7 @@
                     light
                     color="secondary">
                     Confirm
+                    <span slot="loader">Connecting...</span>
                   </v-btn>
                   <div class="caption">
                     A confirmation code was sent to your email address.
@@ -59,30 +64,80 @@
 </template>
 
 <script>
+import router from '../routes'
+import * as config from './config'
+var AmazonCognitoIdentity = require('amazon-cognito-identity-js')
+var userPool = []
 
 export default {
   data: () => ({
+    callback: false,
+    confirmed: false,
+    showerr: false,
+    errcode: '',
+    errmsg: '',
     valid: false,
     code: '',
+    codeRules: [
+      (v) => !!v || 'Code is required'
+    ],
     loader: false,
     loading: false
   }),
   methods: {
     onSubmit () {
       this.loader = 'loading'
-      console.log('called')
-      console.log(this.code)
-      this.hide = !this.hide
-    }
-  },
-  watch: {
-    loader () {
       const l = this.loader
       this[l] = !this[l]
 
-      setTimeout(() => (this[l] = false), 3000)
+      console.log('confirmation code: ' + this.code)
+      userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
+      var userData = {
+        Username: 'sonabstudios@gmail.com',
+        Pool: userPool
+      }
+      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
 
-      this.loader = null
+      cognitoUser.confirmRegistration(this.code, true, (err, result) => {
+        if (!this.callback) {
+          console.log('confirm callback')
+          if (err) {
+            console.log('confirmation error: ' + JSON.stringify(err))
+            this.errcode = JSON.stringify(err.code)
+          } else {
+            console.log('confirmation success: ' + JSON.stringify(result))
+            console.log('user name is ' + result.user.getUsername())
+            this.confirmed = true
+          }
+          this[l] = false
+          this.loader = null
+          this.callback = true
+        }
+      })
+    }
+  },
+  watch: {
+    confirmed () {
+      if (this.confirmed === true) {
+        router.push('/')
+      }
+    },
+    errcode () {
+      console.log('watched error code: ' + this.errcode)
+      if (this.errcode !== '') {
+        if (this.errcode === '"CodeMismatchException"') {
+          this.errmsg = 'Invalid verification code provided!'
+        } else if (this.errcode === '"NotAuthorizedException"') {
+          this.errmsg = 'The user has already been confirmed!'
+        } else if (this.errcode === '"UserNotFoundException"') {
+          this.errmsg = 'Username id not found!'
+        } else if (this.errcode === '"LimitExceededException"') {
+          this.errmsg = 'Attempt limit exceeded, please try after some time!'
+        } else {
+          this.errmsg = 'An error has occured!'
+        }
+        this.showerr = true
+      }
     }
   }
 }

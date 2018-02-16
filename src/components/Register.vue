@@ -18,8 +18,8 @@
             <v-flex md6>
               <v-card class="elevation-0 pa-2 ml-1 mr-1">
                 <v-alert outline type="error" dismissible class="ml-3 mr-3" v-model="showerr">
-                      {{ errmsg }}
-                    </v-alert>
+                  {{ errmsg }}
+                </v-alert>
                 <v-card-title primary-title>
                   <div>
                     <h4 class="headline mb-0">Register to AWS Cognito</h4>
@@ -77,12 +77,8 @@
 
 <script>
 import router from '../routes'
+import * as config from './config'
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js')
-
-const poolData = {
-  UserPoolId: 'us-east-2_ybx9ttSac',
-  ClientId: '5gcb6n0l422h0a23p52j2jb8kj'
-}
 
 var userPool = []
 var attributeList = []
@@ -100,13 +96,13 @@ export default {
       errmsg: '',
       username: '',
       valid: false,
-      email: 'sonabstudios@gmail.com',
+      email: '',
       emailRules: [
         (v) => !!v || 'E-mail is required',
         // eslint-disable-next-line
         (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
       ],
-      password: 'Gr@ffiti22',
+      password: '',
       passRules: [
         (v) => !!v || 'Password is required',
         (v) => v.length >= 8 || 'Password must be 8-20 characters',
@@ -130,7 +126,7 @@ export default {
       var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail)
       attributeList.push(attributeEmail)
       console.log('attribute list: ' + attributeList)
-      userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
+      userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
       console.log('sign up with: ' + this.email + ' ' + this.password)
       this.callback = false
       this.errcode = ''
@@ -173,7 +169,7 @@ export default {
         if (this.errcode === '"UsernameExistsException"') {
           this.errmsg = 'An account with the given email already exists!'
         } else {
-          this.errmsg = 'Internal error!'
+          this.errmsg = 'An error has occured!'
         }
         this.showerr = true
       }
