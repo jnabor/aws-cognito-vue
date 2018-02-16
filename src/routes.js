@@ -13,7 +13,7 @@ export default new Router({
     { path: '/signin', name: 'SignIn', component: SignIn },
     { path: '/register', name: 'Register', component: Register },
     { path: '/reset', name: 'Reset', component: Reset },
-    { path: '/confirm', name: 'COnfirm', component: Confirm }
+    { path: '/confirm', name: 'Confirm', component: Confirm }
   ],
   mode: 'history'
 })

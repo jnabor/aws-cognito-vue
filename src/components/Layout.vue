@@ -27,10 +27,11 @@
           </v-list-tile>
         </v-list>
     </v-menu>
-
   </v-toolbar>
 
-  assdadasd
+  <v-content>
+    <router-view></router-view>
+  </v-content>
 
   <v-footer fixed app>
     <span>&copy; 2018 <a href="http://sonabstudios.com">SonabStudios&trade;</a> is a trademark of Jayson Nabor</span>

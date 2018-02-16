@@ -10,7 +10,7 @@
             <v-flex md4 class="hidden-sm-and-down">
               <v-card class="elevation-0 pa-2">
                 <v-card-media >
-                <img class="aws-logo" src="/aws_cognito.png">
+                <img class="aws-logo" src="../../static/aws_cognito.png">
                 </v-card-media>
               </v-card>
             </v-flex>
@@ -85,7 +85,8 @@ const poolData = {
   ClientId: '5gcb6n0l422h0a23p52j2jb8kj'
 }
 
-userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
+var cognitoUser = []
 
 export default {
   data: () => ({
@@ -94,6 +95,7 @@ export default {
     email: 'sonabstudios@gmail.com',
     emailRules: [
       (v) => !!v || 'E-mail is required',
+      // eslint-disable-next-line
       (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
     ],
     password: 'Gr@ffiti22',
@@ -103,8 +105,8 @@ export default {
     ],
     attributeList: [],
     dataEmail: {
-      Name : 'email',
-      Value : ''
+      Name: 'email',
+      Value: ''
     },
     hidepw: true,
     loader: false,

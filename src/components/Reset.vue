@@ -10,7 +10,7 @@
             <v-flex md4 class="hidden-sm-and-down">
               <v-card class="elevation-0 pa-2">
                 <v-card-media >
-                <img class="aws-logo" src="/aws_cognito.png">
+                <img class="aws-logo" src="../../static/aws_cognito.png">
                 </v-card-media>
               </v-card>
             </v-flex>
@@ -66,25 +66,26 @@ import router from '../routes'
 
 export default {
   data: () => ({
-      valid: false,
-      email: '',
-      emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-      ],
-      loader: false,
-      loading: false,
+    valid: false,
+    email: '',
+    emailRules: [
+      (v) => !!v || 'E-mail is required',
+      // eslint-disable-next-line
+      (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+    ],
+    loader: false,
+    loading: false
   }),
   methods: {
     onSubmit () {
       this.loader = 'loading'
-      console.log("called")
+      console.log('called')
       console.log(this.email)
-      this.hide = !this.hide;
+      this.hide = !this.hide
     },
     navRreset: function () {
       router.push('/reset')
-    },
+    }
   },
   watch: {
     loader () {
