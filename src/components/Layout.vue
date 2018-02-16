@@ -30,7 +30,7 @@
 
   </v-toolbar>
 
-  <nuxt />
+  assdadasd
 
   <v-footer fixed app>
     <span>&copy; 2018 <a href="http://sonabstudios.com">SonabStudios&trade;</a> is a trademark of Jayson Nabor</span>
@@ -40,15 +40,17 @@
 </template>
 
 <script>
+import router from '../routes'
+
 export default {
   methods: {
     navDefault: function () {
-      console.log('navigatig to sign in')
-      this.$router.push('/')
+      console.log('navigating to sign in')
+      router.push('/')
     },
     navRegister: function () {
       console.log('navigatig to sign up')
-      this.$router.push('/register')
+      router.push('/register')
     }
   }
 }

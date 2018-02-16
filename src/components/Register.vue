@@ -72,39 +72,40 @@
 </template>
 
 <script>
+import router from '../routes'
 
 export default {
   data: () => ({
-      valid: false,
-      email: '',
-      emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-      ],
-      password: '',
-      passRules: [
-        (v) => !!v || 'Password is required',
-        (v) => v.length >= 8 || 'Password must be 8-20 characters',
-        (v) => /^(?=.*[0-9])/.test(v) || 'Password must contain at least 1 number',
-        (v) => /^(?=.*[a-z])/.test(v) || 'Password must contain at least 1 lower case letter',
-        (v) => /^(?=.*[A-Z])/.test(v) || 'Password must contain at least 1 upper case letter',
-        (v) => /^(?=.*[!@#$%^&*"])/.test(v) || 'Password must contain at least 1 special character (!@#$%^&*")'
-      ],
-      hidepw: true,
-      loader: false,
-      loading: false,
+    valid: false,
+    email: '',
+    emailRules: [
+      (v) => !!v || 'E-mail is required',
+      (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+    ],
+    password: '',
+    passRules: [
+      (v) => !!v || 'Password is required',
+      (v) => v.length >= 8 || 'Password must be 8-20 characters',
+      (v) => /^(?=.*[0-9])/.test(v) || 'Password must contain at least 1 number',
+      (v) => /^(?=.*[a-z])/.test(v) || 'Password must contain at least 1 lower case letter',
+      (v) => /^(?=.*[A-Z])/.test(v) || 'Password must contain at least 1 upper case letter',
+      (v) => /^(?=.*[!@#$%^&*"])/.test(v) || 'Password must contain at least 1 special character (!@#$%^&*")'
+    ],
+    hidepw: true,
+    loader: false,
+    loading: false
   }),
   methods: {
     onSubmit () {
       this.loader = 'loading'
-      console.log("called");
-      console.log(this.email);
-      console.log(this.password);
-      this.hide = !this.hide;
+      console.log('called')
+      console.log(this.email)
+      console.log(this.password)
+      this.hide = !this.hide
     },
     navRreset: function () {
       router.push('/reset')
-    },
+    }
   },
   watch: {
     loader () {

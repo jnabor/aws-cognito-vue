@@ -59,6 +59,9 @@
                   <div>
                     <router-link :to="'reset'">Forgot password?</router-link>
                   </div>
+                  <div>
+                    Message: {{ message }}
+                  </div>
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -73,63 +76,65 @@
 </template>
 
 <script>
-var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+import router from '../routes'
+
+var AmazonCognitoIdentity = require('amazon-cognito-identity-js')
+
+const poolData = {
+  UserPoolId: 'us-east-2_ybx9ttSac',
+  ClientId: '5gcb6n0l422h0a23p52j2jb8kj'
+}
+
+userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
 
 export default {
   data: () => ({
-      valid: false,
-      email: 'sonabstudios@gmail.com',
-      emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-      ],
-      password: 'Gr@ffiti22',
-      passRules: [
-        (v) => !!v || 'Password is required',
-        (v) => v.length >= 8 || 'Password must be at least 8 characters'
-      ],
-      attributeList: [],
-      dataEmail: {
-        Name : 'email',
-        Value : ''
-      },
-      hidepw: true,
-      loader: false,
-      loading: false,
-      poolData: {
-        UserPoolId: 'us-east-2_ybx9ttSac',
-        ClientId: '5gcb6n0l422h0a23p52j2jb8kj'
-      },
-      userPool: ''
+    valid: false,
+    message: '',
+    email: 'sonabstudios@gmail.com',
+    emailRules: [
+      (v) => !!v || 'E-mail is required',
+      (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+    ],
+    password: 'Gr@ffiti22',
+    passRules: [
+      (v) => !!v || 'Password is required',
+      (v) => v.length >= 8 || 'Password must be at least 8 characters'
+    ],
+    attributeList: [],
+    dataEmail: {
+      Name : 'email',
+      Value : ''
+    },
+    hidepw: true,
+    loader: false,
+    loading: false
   }),
   methods: {
-    onSubmit () {
-
+    onSubmit: function () {
       this.loader = 'loading'
       console.log('register with ' + this.email + ' ' + this.password)
       this.dataEmail.Value = this.email
-      this.attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(this.dataEmail);
-      this.attributeList.push(this.attributeEmail)
+      var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(this.dataEmail)
+      this.attributeList.push(attributeEmail)
       console.log('attributes: ' + this.attributeList)
 
-      this.userPool = new AmazonCognitoIdentity.CognitoUserPool(this.poolData);
-      this.userPool.signUp(this.email, this.password, this.attributeList, null, (err, result) => {
-
+      userPool.signUp(this.email, this.password, this.attributeList, null, (err, result) => {
         console.log('sign up callback')
-                if (err) {
-                    console.log('sign up error: ' + err)
-                    return
-                }
-                console.log('sign up success: ' + result)
-                cognitoUser = result.user;
-                console.log('user name is ' + cognitoUser.getUsername());
-      });
+        if (err) {
+          console.log('sign up error: ' + err)
+          this.message = err.message
+          return
+        }
+        console.log('sign up success: ' + result)
+        cognitoUser = result.user
+        this.message = 'sign up successful'
+        console.log('user name is ' + cognitoUser.getUsername())
+      })
     },
     navRreset: function () {
-      $router.push('/reset')
-
-
-    },
+      router.push('/reset')
+    }
   },
   watch: {
     loader () {

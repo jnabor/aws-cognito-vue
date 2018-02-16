@@ -62,28 +62,29 @@
 </template>
 
 <script>
+import router from '../routes'
 
 export default {
   data: () => ({
-      valid: false,
-      email: '',
-      emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-      ],
-      loader: false,
-      loading: false,
+    valid: false,
+    email: '',
+    emailRules: [
+      (v) => !!v || 'E-mail is required',
+      (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+    ],
+    loader: false,
+    loading: false
   }),
   methods: {
     onSubmit () {
       this.loader = 'loading'
-      console.log("called");
-      console.log(this.email);
-      this.hide = !this.hide;
+      console.log('called')
+      console.log(this.email)
+      this.hide = !this.hide
     },
     navRreset: function () {
-      $router.push('/reset')
-    },
+      router.push('/reset')
+    }
   },
   watch: {
     loader () {
