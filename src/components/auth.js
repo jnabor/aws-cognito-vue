@@ -19,11 +19,8 @@ export function Register (username, password) {
   console.log('attribute list: ' + attributeList)
   userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
   console.log('sign up with: ' + username + ' ' + password)
-  console.log(this)
-
   userPool.signUp(username, password, attributeList, null, function (err, result) {
     console.log('sign up callback')
-    console.log(this)
     if (err) {
       console.log('sign up error: ' + JSON.stringify(err))
       return

@@ -58,6 +58,9 @@
                   <div class="caption">
                     By signing up, you agree to the <router-link :to="''">Terms of Service</router-link> and <router-link :to="''">Privacy Policy</router-link>, including Cookie Use.
                   </div>
+                  <div class="caption">
+                    <h4>asdsdasdasd</h4>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -72,12 +75,26 @@
 </template>
 
 <script>
-import * as Auth from './auth'
 import router from '../routes'
+var AmazonCognitoIdentity = require('amazon-cognito-identity-js')
+
+const poolData = {
+  UserPoolId: 'us-east-2_ybx9ttSac',
+  ClientId: '5gcb6n0l422h0a23p52j2jb8kj'
+}
+
+var userPool = []
+var attributeList = []
+var dataEmail = {
+  Name: 'email',
+  Value: ''
+}
 
 export default {
   data: function () {
     return {
+      callback: false,
+      message: '',
       valid: false,
       email: 'sonabstudios@gmail.com',
       emailRules: [
@@ -102,12 +119,34 @@ export default {
   methods: {
     onSubmit () {
       this.loader = 'loading'
-      console.log('sign up with: ' + this.email + ' ' + this.password)
 
-      Auth.Register(this.email, this.password)
+      dataEmail.Value = this.email
+      var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail)
+      attributeList.push(attributeEmail)
+      console.log('attribute list: ' + attributeList)
+      userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
+      console.log('sign up with: ' + this.email + ' ' + this.password)
+      this.callback = false
+
+      userPool.signUp(this.email, this.password, attributeList, null, (err, result) => {
+        if (!this.callback) {
+          console.log('register callback')
+          if (err) {
+            console.log('registration error: ' + JSON.stringify(err))
+          } else {
+            console.log('registration success: ' + JSON.stringify(result))
+            this.message = JSON.stringify(result.message)
+            console.log('user name is ' + result.user.getUsername())
+          }
+          this.callback = true
+        }
+      })
     },
     navRreset: function () {
       router.push('/reset')
+    },
+    getMessage: function () {
+      return this.message
     }
   },
   watch: {
