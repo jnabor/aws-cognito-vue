@@ -72,37 +72,39 @@
 </template>
 
 <script>
+import * as Auth from './auth'
 import router from '../routes'
 
 export default {
-  data: () => ({
-    valid: false,
-    email: '',
-    emailRules: [
-      (v) => !!v || 'E-mail is required',
-      // eslint-disable-next-line
-      (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-    ],
-    password: '',
-    passRules: [
-      (v) => !!v || 'Password is required',
-      (v) => v.length >= 8 || 'Password must be 8-20 characters',
-      (v) => /^(?=.*[0-9])/.test(v) || 'Password must contain at least 1 number',
-      (v) => /^(?=.*[a-z])/.test(v) || 'Password must contain at least 1 lower case letter',
-      (v) => /^(?=.*[A-Z])/.test(v) || 'Password must contain at least 1 upper case letter',
-      (v) => /^(?=.*[!@#$%^&*"])/.test(v) || 'Password must contain at least 1 special character (!@#$%^&*")'
-    ],
-    hidepw: true,
-    loader: false,
-    loading: false
-  }),
+  data: function () {
+    return {
+      valid: false,
+      email: 'sonabstudios@gmail.com',
+      emailRules: [
+        (v) => !!v || 'E-mail is required',
+        // eslint-disable-next-line
+        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      ],
+      password: 'Gr@ffiti22',
+      passRules: [
+        (v) => !!v || 'Password is required',
+        (v) => v.length >= 8 || 'Password must be 8-20 characters',
+        (v) => /^(?=.*[0-9])/.test(v) || 'Password must contain at least 1 number',
+        (v) => /^(?=.*[a-z])/.test(v) || 'Password must contain at least 1 lower case letter',
+        (v) => /^(?=.*[A-Z])/.test(v) || 'Password must contain at least 1 upper case letter',
+        (v) => /^(?=.*[!@#$%^&*"])/.test(v) || 'Password must contain at least 1 special character (!@#$%^&*")'
+      ],
+      hidepw: true,
+      loader: false,
+      loading: false
+    }
+  },
   methods: {
     onSubmit () {
       this.loader = 'loading'
-      console.log('called')
-      console.log(this.email)
-      console.log(this.password)
-      this.hide = !this.hide
+      console.log('sign up with: ' + this.email + ' ' + this.password)
+
+      Auth.Register(this.email, this.password)
     },
     navRreset: function () {
       router.push('/reset')
@@ -112,9 +114,7 @@ export default {
     loader () {
       const l = this.loader
       this[l] = !this[l]
-
-      setTimeout(() => (this[l] = false), 3000)
-
+      setTimeout(() => (this[l] = false), 1000)
       this.loader = null
     }
   }

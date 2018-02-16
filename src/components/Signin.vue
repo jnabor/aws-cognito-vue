@@ -85,9 +85,6 @@ const poolData = {
   ClientId: '5gcb6n0l422h0a23p52j2jb8kj'
 }
 
-var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
-var cognitoUser = []
-
 export default {
   data: () => ({
     valid: false,
@@ -104,6 +101,8 @@ export default {
       (v) => v.length >= 8 || 'Password must be at least 8 characters'
     ],
     attributeList: [],
+    cognitoUser: [],
+    userPool: '',
     dataEmail: {
       Name: 'email',
       Value: ''
@@ -121,18 +120,18 @@ export default {
       this.attributeList.push(attributeEmail)
       console.log('attributes: ' + this.attributeList)
 
-      userPool.signUp(this.email, this.password, this.attributeList, null, (err, result) => {
+      this.userPool.signUp(this.email, this.password, this.attributeList, null, function (err, result) {
         console.log('sign up callback')
         if (err) {
           console.log('sign up error: ' + err)
           this.message = err.message
           return
         }
-        console.log('sign up success: ' + result)
-        cognitoUser = result.user
+        console.log('sign up success: ' + this.result)
+        this.cognitoUser = result.user
         this.message = 'sign up successful'
-        console.log('user name is ' + cognitoUser.getUsername())
-      })
+        console.log('user name is ' + this.cognitoUser.getUsername())
+      }.bind(this))
     },
     navRreset: function () {
       router.push('/reset')
@@ -147,6 +146,9 @@ export default {
 
       this.loader = null
     }
+  },
+  created () {
+    this.userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
   }
 }
 

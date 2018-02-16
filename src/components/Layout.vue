@@ -34,7 +34,9 @@
   </v-content>
 
   <v-footer fixed app>
-    <span>&copy; 2018 <a href="http://sonabstudios.com">SonabStudios&trade;</a> is a trademark of Jayson Nabor</span>
+    <div class="ml-3">
+      <span>&copy; 2018 <a href="http://sonabstudios.com">SonabStudios&trade;</a> is a trademark of Jayson Nabor</span>
+    </div>
   </v-footer>
 
   </v-app>
