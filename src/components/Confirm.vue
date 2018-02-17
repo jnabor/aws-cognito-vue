@@ -125,13 +125,13 @@ export default {
       console.log('watched error code: ' + this.errcode)
       if (this.errcode !== '') {
         if (this.errcode === '"CodeMismatchException"') {
-          this.errmsg = 'Invalid verification code provided!'
+          this.errmsg = 'Invalid verification code provided'
         } else if (this.errcode === '"NotAuthorizedException"') {
-          this.errmsg = 'The user has already been confirmed!'
+          this.errmsg = 'The user has already been confirmed'
         } else if (this.errcode === '"UserNotFoundException"') {
           this.errmsg = 'Username id not found!'
         } else if (this.errcode === '"LimitExceededException"') {
-          this.errmsg = 'Attempt limit exceeded, please try after some time!'
+          this.errmsg = 'Attempt limit exceeded, please try after some time'
         } else {
           this.errmsg = 'An error has occured!'
         }

@@ -58,9 +58,10 @@
                     light
                     color="secondary">
                     Sign In
+                    <span slot="loader">Connecting...</span>
                   </v-btn>
-                  <div>
-                    <router-link :to="'reset'">Forgot password?</router-link>
+                  <div >
+                    By signing in, you agree to the <router-link :to="''">Terms of Service</router-link> and <router-link :to="''">Privacy Policy</router-link>, including Cookie Use.
                   </div>
                 </v-card-text>
               </v-card>
@@ -81,11 +82,6 @@ import * as config from './config'
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js')
 
 var userPool = []
-var attributeList = []
-var dataEmail = {
-  Name: 'email',
-  Value: ''
-}
 
 export default {
   data: function () {
@@ -96,13 +92,13 @@ export default {
       errmsg: '',
       username: '',
       valid: false,
-      email: '',
+      email: 'sonabstudios@gmail.com',
       emailRules: [
         (v) => !!v || 'E-mail is required',
         // eslint-disable-next-line
         (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
       ],
-      password: '',
+      password: 'Gr@ffiti22',
       passRules: [
         (v) => !!v || 'Password is required',
         (v) => v.length >= 8 || 'Password must be at least 8 characters'
@@ -118,31 +114,39 @@ export default {
       const l = this.loader
       this[l] = !this[l]
 
-      dataEmail.Value = this.email
-      var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail)
-      attributeList.push(attributeEmail)
-      console.log('attribute list: ' + attributeList)
-      userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
-      console.log('sign up with: ' + this.email + ' ' + this.password)
-      this.callback = false
-      this.errcode = ''
-      this.username = ''
+      console.log('sign in with: ' + this.email + ' ' + this.password)
+      var authenticationData = {
+        Username: this.email,
+        Password: this.password
+      }
+      console.log('auth data: ' + authenticationData.Username + ' ' + authenticationData.Password)
+      var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData)
 
-      userPool.signUp(this.email, this.password, attributeList, null, (err, result) => {
-        if (!this.callback) {
-          console.log('register callback')
-          if (err) {
-            console.log('registration error: ' + JSON.stringify(err))
-            this.errcode = JSON.stringify(err.code)
-          } else {
-            console.log('registration success: ' + JSON.stringify(result))
-            this.message = JSON.stringify(result.message)
-            console.log('user name is ' + result.user.getUsername())
-            this.username = JSON.stringify(result.user.getUsername())
+      userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
+      var userData = {
+        Username: this.email,
+        Pool: userPool
+      }
+      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: (result) => {
+          if (!this.callback) {
+            this.callback = true
+            console.log('sign in success with token: ' + result.getIdToken().getJwtToken())
+            this.$store.state.token = result.getIdToken().getJwtToken()
+            this.$store.state.authenticated = true
+            this.username = this.email
+            this[l] = false
+            this.loader = null
           }
-          this[l] = false
-          this.loader = null
-          this.callback = true
+        },
+        onFailure: (err) => {
+          if (!this.callback) {
+            console.log('sign in failure')
+            this.errcode = JSON.stringify(err.code)
+            this[l] = false
+            this.loader = null
+          }
         }
       })
     },
@@ -156,14 +160,17 @@ export default {
   watch: {
     username () {
       if ((this.username != null) && (this.errcode === '')) {
-        router.push('/confirm')
+        this.$store.state.username = this.username
+        router.push('/profile')
       }
     },
     errcode () {
       console.log('watched error code: ' + this.errcode)
       if (this.errcode !== '') {
-        if (this.errcode === '"UsernameExistsException"') {
-          this.errmsg = 'An account with the given email already exists!'
+        if (this.errcode === '"NotAuthorizedException"') {
+          this.errmsg = 'Incorrect username or password'
+        } else if (this.errcode === '"UserNotFoundException"') {
+          this.errmsg = 'User not found'
         } else {
           this.errmsg = 'An error has occured!'
         }
