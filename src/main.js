@@ -5,10 +5,12 @@ import App from './App'
 import router from './routes'
 import Vuetify from 'vuetify'
 import AppLayout from './components/Layout.vue'
+import AppHome from './components/Home.vue'
 import AppSignin from './components/Signin.vue'
 import AppRegister from './components/Register.vue'
 import AppReset from './components/Reset.vue'
 import AppConfirm from './components/Confirm.vue'
+import { store } from './store/store'
 
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
@@ -28,6 +30,7 @@ Vue.use(Vuetify, {
 Vue.config.productionTip = false
 
 Vue.component('app-layout', AppLayout)
+Vue.component('app-home', AppHome)
 Vue.component('app-signin', AppSignin)
 Vue.component('app-register', AppRegister)
 Vue.component('app-reset', AppReset)
@@ -37,6 +40,7 @@ Vue.component('app-confirm', AppConfirm)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   render: h => h(App)
 })

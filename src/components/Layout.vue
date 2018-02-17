@@ -5,27 +5,29 @@
     <i class="material-icons white--text ml-2 ml-4">fingerprint</i>
     <v-toolbar-title class="white--text hidden-xs-only">Auth</v-toolbar-title>
     <v-spacer></v-spacer>
+    <v-btn icon @click="navDefault()">
+      <v-icon class="white--text">home</v-icon>
+    </v-btn>
     <v-toolbar-items class="hidden-xs-only">
-      <v-btn class="white--text" @click="navDefault()" flat>Sign In</v-btn>
+      <v-btn class="white--text" @click="navSignIn()" flat>Sign In</v-btn>
       <v-btn class="white--text mr-4" @click="navRegister()" flat>Register</v-btn>
     </v-toolbar-items>
-
-     <v-menu bottom left class="hidden-sm-and-up">
+    <v-menu bottom left class="hidden-sm-and-up">
       <v-btn icon slot="activator" >
         <v-icon class="white--text">more_vert</v-icon>
       </v-btn>
-        <v-list>
-          <v-list-tile @click="navDefault()">
-            <v-list-tile-title>
-              Sign In
-            </v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="navRegister()">
-            <v-list-tile-title>
-              Register
-            </v-list-tile-title>
-          </v-list-tile>
-        </v-list>
+      <v-list>
+        <v-list-tile @click="navSignIn()">
+          <v-list-tile-title>
+            Sign In
+          </v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="navRegister()">
+          <v-list-tile-title>
+            Register
+          </v-list-tile-title>
+        </v-list-tile>
+      </v-list>
     </v-menu>
   </v-toolbar>
 
@@ -34,9 +36,11 @@
   </v-content>
 
   <v-footer fixed app>
-    <div class="ml-3">
-      <span>&copy; 2018 <a href="http://sonabstudios.com">SonabStudios&trade;</a> is a trademark of Jayson Nabor</span>
-    </div>
+    <v-layout column align-center justify-center>
+      <div class="ml-3">
+        <span>&copy; 2018 <a href="http://sonabstudios.com">SonabStudios&trade;</a> is a trademark of Jayson Nabor</span>
+      </div>
+    </v-layout>
   </v-footer>
 
   </v-app>
@@ -49,7 +53,11 @@ export default {
   methods: {
     navDefault: function () {
       console.log('navigating to sign in')
-      router.push('/')
+      router.push('/home')
+    },
+    navSignIn: function () {
+      console.log('navigating to sign in')
+      router.push('/signin')
     },
     navRegister: function () {
       console.log('navigatig to sign up')

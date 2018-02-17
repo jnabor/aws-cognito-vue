@@ -22,7 +22,7 @@
                 </v-alert>
                 <v-card-title primary-title>
                   <div>
-                    <h4 class="headline mb-0">Register to AWS Cognito</h4>
+                    <h4 class="headline mb-0">Register AWS Cognito</h4>
                   </div>
                 </v-card-title>
                 <v-card-text>
@@ -59,7 +59,7 @@
                     Sign Up
                     <span slot="loader">Connecting...</span>
                   </v-btn>
-                  <div class="caption">
+                  <div >
                     By signing up, you agree to the <router-link :to="''">Terms of Service</router-link> and <router-link :to="''">Privacy Policy</router-link>, including Cookie Use.
                   </div>
                 </v-card-text>
@@ -134,6 +134,7 @@ export default {
 
       userPool.signUp(this.email, this.password, attributeList, null, (err, result) => {
         if (!this.callback) {
+          this.callback = true
           console.log('register callback')
           if (err) {
             console.log('registration error: ' + JSON.stringify(err))
@@ -142,11 +143,10 @@ export default {
             console.log('registration success: ' + JSON.stringify(result))
             this.message = JSON.stringify(result.message)
             console.log('user name is ' + result.user.getUsername())
-            this.username = JSON.stringify(result.user.getUsername())
+            this.username = result.user.getUsername()
           }
           this[l] = false
           this.loader = null
-          this.callback = true
         }
       })
     },
@@ -160,6 +160,7 @@ export default {
   watch: {
     username () {
       if ((this.username != null) && (this.errcode === '')) {
+        this.$store.state.username = this.username
         router.push('/confirm')
       }
     },
@@ -193,4 +194,5 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
 </style>

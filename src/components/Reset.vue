@@ -45,7 +45,7 @@
                     color="secondary">
                     Reset
                   </v-btn>
-                  <div class="caption">
+                  <div>
                     A reset link will be sent to the email address provided.
                   </div>
                 </v-card-text>
@@ -114,4 +114,5 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
 </style>

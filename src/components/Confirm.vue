@@ -47,7 +47,7 @@
                     Confirm
                     <span slot="loader">Connecting...</span>
                   </v-btn>
-                  <div class="caption">
+                  <div>
                     A confirmation code was sent to your email address.
                   </div>
                 </v-card-text>
@@ -90,28 +90,27 @@ export default {
       const l = this.loader
       this[l] = !this[l]
 
-      console.log('confirmation code: ' + this.code)
       userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
       var userData = {
-        Username: 'sonabstudios@gmail.com',
+        Username: this.$store.state.username,
         Pool: userPool
       }
+      console.log('confirmation code for ' + userData.Username + ': ' + this.code)
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
 
       cognitoUser.confirmRegistration(this.code, true, (err, result) => {
         if (!this.callback) {
+          this.callback = true
           console.log('confirm callback')
           if (err) {
             console.log('confirmation error: ' + JSON.stringify(err))
             this.errcode = JSON.stringify(err.code)
           } else {
             console.log('confirmation success: ' + JSON.stringify(result))
-            console.log('user name is ' + result.user.getUsername())
             this.confirmed = true
           }
           this[l] = false
           this.loader = null
-          this.callback = true
         }
       })
     }
@@ -119,7 +118,7 @@ export default {
   watch: {
     confirmed () {
       if (this.confirmed === true) {
-        router.push('/')
+        router.push('/signin')
       }
     },
     errcode () {
@@ -157,4 +156,5 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
 </style>
