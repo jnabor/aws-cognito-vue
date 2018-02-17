@@ -9,8 +9,9 @@
       <v-icon class="white--text">home</v-icon>
     </v-btn>
     <v-toolbar-items class="hidden-xs-only">
-      <v-btn class="white--text" @click="navSignIn()" flat>Sign In</v-btn>
-      <v-btn class="white--text mr-4" @click="navRegister()" flat>Register</v-btn>
+      <v-btn v-if="!$store.state.authenticated" class="white--text" @click="navSignIn()" flat>Sign In</v-btn>
+      <v-btn v-if="!$store.state.authenticated" class="white--text mr-4" @click="navRegister()" flat>Register</v-btn>
+      <v-btn v-if="$store.state.authenticated" class="white--text mr-4" @click="navSignOut()" flat>SignOut</v-btn>
     </v-toolbar-items>
     <v-menu bottom left class="hidden-sm-and-up">
       <v-btn icon slot="activator" >
@@ -25,6 +26,11 @@
         <v-list-tile @click="navRegister()">
           <v-list-tile-title>
             Register
+          </v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="navSignOut()">
+          <v-list-tile-title>
+            Sign Out
           </v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -62,6 +68,11 @@ export default {
     navRegister: function () {
       console.log('navigatig to sign up')
       router.push('/register')
+    },
+    navSignOut: function () {
+      console.log('signing out')
+      this.$store.state.authenticated = false
+      router.push('/home')
     }
   }
 }
