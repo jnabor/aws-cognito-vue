@@ -144,6 +144,8 @@ export default {
             this.message = JSON.stringify(result.message)
             console.log('user name is ' + result.user.getUsername())
             this.username = result.user.getUsername()
+            this.$store.state.username = this.username
+            router.push('/confirm')
           }
           this[l] = false
           this.loader = null
@@ -158,12 +160,6 @@ export default {
     }
   },
   watch: {
-    username () {
-      if ((this.username != null) && (this.errcode === '')) {
-        this.$store.state.username = this.username
-        router.push('/confirm')
-      }
-    },
     errcode () {
       console.log('watched error code: ' + this.errcode)
       if (this.errcode !== '') {

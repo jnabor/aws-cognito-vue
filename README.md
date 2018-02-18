@@ -1,7 +1,18 @@
 # aws-cognito-vue
 
-Authentication with AWS Cognito using Vue.js
-Live Demo: http://auth-cognito-demo.s3-website-ap-southeast-1.amazonaws.com/
+#h1 AUTHENTICATION DEMO
+##h2 Authentication with AWS Cognito using Vue.js
+
+###h3 Features
+1. Register with email and password
+2. Confirmation code sent to email
+3. Confirmation code verification
+4. Sign In for verified users
+5. Sign Out
+6. Password reset
+
+###h3 Live Demo:
+http://auth-cognito-demo.s3-website-ap-southeast-1.amazonaws.com/
 
 ## Build Setup
 

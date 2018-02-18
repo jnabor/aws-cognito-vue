@@ -61,7 +61,7 @@
                     <span slot="loader">Connecting...</span>
                   </v-btn>
                   <div >
-                    By signing in, you agree to the <router-link :to="''">Terms of Service</router-link> and <router-link :to="''">Privacy Policy</router-link>, including Cookie Use.
+                    <router-link :to="'/reset'">Forgot password?</router-link>
                   </div>
                 </v-card-text>
               </v-card>
@@ -135,9 +135,11 @@ export default {
             console.log('sign in success with token: ' + result.getIdToken().getJwtToken())
             this.$store.state.token = result.getIdToken().getJwtToken()
             this.$store.state.authenticated = true
+            this.$store.state.username = this.email
             this.username = this.email
             this[l] = false
             this.loader = null
+            router.push('/profile')
           }
         },
         onFailure: (err) => {
@@ -158,12 +160,6 @@ export default {
     }
   },
   watch: {
-    username () {
-      if ((this.username != null) && (this.errcode === '')) {
-        this.$store.state.username = this.username
-        router.push('/profile')
-      }
-    },
     errcode () {
       console.log('watched error code: ' + this.errcode)
       if (this.errcode !== '') {
@@ -175,6 +171,8 @@ export default {
           this.errmsg = 'An error has occured!'
         }
         this.showerr = true
+      } else {
+        this.showerr = false
       }
     }
   }

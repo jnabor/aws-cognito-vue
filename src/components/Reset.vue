@@ -17,37 +17,71 @@
 
             <v-flex md6>
               <v-card class="elevation-0 pa-2 ml-1 mr-1">
-                <v-card-title primary-title>
+                <v-alert outline type="error" dismissible class="ml-3 mr-3" v-model="showerr">
+                  {{ errmsg }}
+                </v-alert>
+
+                <v-card-title v-if="!codesent" primary-title>
                   <div>
-                    <h4 class="headline mb-0">Reset Password</h4>
+                    <h4 class="headline mb-0">Find your cognito account</h4>
+                  </div>
+                </v-card-title>
+                <v-card-title v-else primary-title>
+                  <div>
+                    <h4 class="headline mb-0">Enter Confirmation Code</h4>
                   </div>
                 </v-card-title>
                 <v-card-text>
 
-                  <v-form v-model="valid">
-
+                  <v-form  v-model="valid">
                     <v-text-field
+                      v-if="!codesent"
                       label="E-mail"
                       v-model="email"
                       :rules="emailRules"
                       required>
                     </v-text-field>
-
+                    <v-text-field
+                      v-else
+                      label="Confirmation Code"
+                      v-model="code"
+                      :rules="codeRules"
+                      required>
+                    </v-text-field>
                   </v-form>
 
                   <v-btn
                     block
+                    v-if="!codesent"
+                    :loading="loading"
+                    @click.native="onFind()"
+                    :disabled="!valid"
+                    class="mt-3 mb-3"
+                    light
+                    color="secondary">
+                    Find
+                    <span slot="loader">Connecting...</span>
+                  </v-btn>
+                  <v-btn
+                    block
+                    v-else
                     :loading="loading"
                     @click.native="onSubmit()"
                     :disabled="!valid"
                     class="mt-3 mb-3"
                     light
                     color="secondary">
-                    Reset
+                    Confirm
+                    <span slot="loader">Searching...</span>
                   </v-btn>
-                  <div>
-                    A reset link will be sent to the email address provided.
+
+                  <div v-if="!codesent">
+                    A confirmation code will be sent to your email address.
                   </div>
+                  <div v-else>
+                    A confirmation code was sent to your email address.
+                  </div>
+
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -63,9 +97,18 @@
 
 <script>
 import router from '../routes'
+import * as config from './config'
+var AmazonCognitoIdentity = require('amazon-cognito-identity-js')
+var userPool = []
 
 export default {
   data: () => ({
+    codesent: false,
+    callback: false,
+    confirmed: false,
+    showerr: false,
+    errcode: '',
+    errmsg: '',
     valid: false,
     email: '',
     emailRules: [
@@ -73,28 +116,65 @@ export default {
       // eslint-disable-next-line
       (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
     ],
+    code: '',
+    codeRules: [
+      (v) => !!v || 'Code is required'
+    ],
     loader: false,
     loading: false
   }),
   methods: {
     onSubmit () {
       this.loader = 'loading'
-      console.log('called')
-      console.log(this.email)
-      this.hide = !this.hide
-    },
-    navRreset: function () {
-      router.push('/reset')
-    }
-  },
-  watch: {
-    loader () {
       const l = this.loader
       this[l] = !this[l]
 
-      setTimeout(() => (this[l] = false), 3000)
+      userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
+      var userData = {
+        Username: this.$store.state.username,
+        Pool: userPool
+      }
+      console.log('confirmation code for ' + userData.Username + ': ' + this.code)
+      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+      console.log(cognitoUser)
+    },
+    onFind () {
+      this.loader = 'loading'
+      const l = this.loader
+      this[l] = !this[l]
 
-      this.loader = null
+      userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
+      var userData = {
+        Username: this.email,
+        Pool: userPool
+      }
+      console.log('confirmation code for ' + userData.Username + ': ' + this.code)
+      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+      console.log(cognitoUser)
+    }
+  },
+  watch: {
+    confirmed () {
+      if (this.confirmed === true) {
+        router.push('/signin')
+      }
+    },
+    errcode () {
+      console.log('watched error code: ' + this.errcode)
+      if (this.errcode !== '') {
+        if (this.errcode === '"CodeMismatchException"') {
+          this.errmsg = 'Invalid verification code provided'
+        } else if (this.errcode === '"NotAuthorizedException"') {
+          this.errmsg = 'The user has already been confirmed'
+        } else if (this.errcode === '"UserNotFoundException"') {
+          this.errmsg = 'Username id not found!'
+        } else if (this.errcode === '"LimitExceededException"') {
+          this.errmsg = 'Attempt limit exceeded, please try after some time'
+        } else {
+          this.errmsg = 'An error has occured!'
+        }
+        this.showerr = true
+      }
     }
   }
 }
