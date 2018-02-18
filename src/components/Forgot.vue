@@ -30,7 +30,7 @@
                   <v-card-text>
                     <v-form  v-model="valid">
                       <v-text-field
-                      label="E-mail"
+                      label="Enter E-mail"
                       v-model="email"
                       :rules="emailRules"
                       required>
@@ -45,7 +45,7 @@
                       light
                       color="secondary">
                       Find
-                      <span slot="loader">Searching...</span>
+                      <span slot="loader">Verifying account...</span>
                     </v-btn>
                     <div>
                       A confirmation code will be sent to your email address.
@@ -87,7 +87,7 @@
                       light
                       color="secondary">
                       Confirm
-                    <span slot="loader">Searching...</span>
+                    <span slot="loader">Updating password...</span>
                     </v-btn>
                   </v-card-text>
                 </template>
@@ -151,6 +151,7 @@ export default {
       }
       console.log('password change for ' + userData.Username)
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+      this.showerr = false
       this.errcode = ''
 
       cognitoUser.confirmPassword(this.code, this.password, {
@@ -182,6 +183,7 @@ export default {
       }
       console.log('password forgot for ' + userData.Username)
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+      this.showerr = false
       this.errcode = ''
 
       cognitoUser.forgotPassword({
@@ -221,6 +223,8 @@ export default {
           this.errmsg = 'Username email not found!'
         } else if (this.errcode === '"LimitExceededException"') {
           this.errmsg = 'Attempt limit exceeded, please try after some time'
+        } else if (this.errcode === '"UserNotConfirmedException"') {
+          this.errmsg = 'User registration not confirmed'
         } else {
           this.errmsg = 'An error has occured!'
         }

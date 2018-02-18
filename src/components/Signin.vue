@@ -156,7 +156,9 @@ export default {
         } else if (this.errcode === '"UserNotFoundException"') {
           this.errmsg = 'User not found'
         } else if (this.errcode === '"UserNotConfirmedException"') {
-          this.errmsg = 'User registration is not confirmed'
+          this.errmsg = 'User registration not confirmed'
+        } else if (this.errcode === '"LimitExceededException"') {
+          this.errmsg = 'Attempt limit exceeded, please try after some time'
         } else {
           this.errmsg = 'An error has occured!'
         }
