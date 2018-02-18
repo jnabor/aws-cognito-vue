@@ -1,17 +1,17 @@
 <template>
   <v-container grid-list-md class="mt-3">
     <v-layout row wrap>
-      <v-flex xs12>
+      <v-flex xl12 lg12 md12 sm12 xs12>
         <v-card class="pa-4 ml-4 mr-4">
           <v-layout row justify-center>
-            <v-flex md4 class="hidden-xs-only">
-              <v-card class="elevation-0 pa-2 mr-4">
+            <v-flex xl2 lg3 md4 sm4 class="hidden-xs-only">
+              <v-card class="elevation-0 pa-2 mr-2">
                 <v-card-media >
                 <img class="aws-logo" src="../../static/aws_cognito.png">
                 </v-card-media>
               </v-card>
             </v-flex>
-            <v-flex md6>
+            <v-flex xl4 lg5 md6 sm6>
               <v-card class="elevation-0 pa-2 ml-1 mr-1">
                 <v-alert outline type="error" dismissible class="ml-3 mr-3" v-model="showerr">
                   {{ errmsg }}

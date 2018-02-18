@@ -18,17 +18,23 @@
         <v-icon class="white--text">more_vert</v-icon>
       </v-btn>
       <v-list>
-        <v-list-tile @click="navSignIn()">
-          <v-list-tile-title>
+        <v-list-tile
+          v-if="!$store.state.authenticated"
+          @click="navSignIn()">
+          <v-list-tile-title >
             Sign In
           </v-list-tile-title>
         </v-list-tile>
-        <v-list-tile @click="navRegister()">
+        <v-list-tile
+          v-if="!$store.state.authenticated"
+          @click="navRegister()">
           <v-list-tile-title>
             Register
           </v-list-tile-title>
         </v-list-tile>
-        <v-list-tile @click="navSignOut()">
+        <v-list-tile
+          v-if="$store.state.authenticated"
+          @click="navSignOut()">
           <v-list-tile-title>
             Sign Out
           </v-list-tile-title>

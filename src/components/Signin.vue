@@ -1,17 +1,17 @@
 <template>
   <v-container grid-list-md class="mt-3">
     <v-layout row wrap>
-      <v-flex xs12>
+      <v-flex xl12 lg12 md12 sm12 xs12>
         <v-card class="pa-4 ml-4 mr-4">
           <v-layout row justify-center>
-            <v-flex md4 class="hidden-xs-only">
-              <v-card class="elevation-0 pa-2 mr-4">
+            <v-flex xl2 lg3 md4 sm4 class="hidden-xs-only">
+              <v-card class="elevation-0 pa-2 mr-2">
                 <v-card-media >
                 <img class="aws-logo" src="../../static/aws_cognito.png">
                 </v-card-media>
               </v-card>
             </v-flex>
-            <v-flex md6>
+            <v-flex xl4 lg5 md6 sm6>
               <v-card class="elevation-0 pa-2 ml-1 mr-1">
                 <v-alert outline type="error" dismissible class="ml-3 mr-3" v-model="showerr">
                   {{ errmsg }}
@@ -22,16 +22,13 @@
                   </div>
                 </v-card-title>
                 <v-card-text>
-
                   <v-form v-model="valid">
-
                     <v-text-field
                       label="E-mail"
                       v-model="email"
                       :rules="emailRules"
                       required>
                     </v-text-field>
-
                     <v-text-field
                       label="Password"
                       v-model="password"
@@ -42,9 +39,7 @@
                       :type="hidepw ? 'password' : 'text'"
                       required>
                     </v-text-field>
-
                   </v-form>
-
                   <v-btn
                     block
                     :loading="loading"
@@ -160,6 +155,8 @@ export default {
           this.errmsg = 'Incorrect username or password'
         } else if (this.errcode === '"UserNotFoundException"') {
           this.errmsg = 'User not found'
+        } else if (this.errcode === '"UserNotConfirmedException"') {
+          this.errmsg = 'User registration is not confirmed'
         } else {
           this.errmsg = 'An error has occured!'
         }
