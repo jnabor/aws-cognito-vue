@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './components/Home.vue'
 import SignIn from '@/components/Signin'
 import Register from '@/components/Register'
-import Reset from '@/components/Reset'
+import Forgot from '@/components/Forgot'
 import Confirm from '@/components/Confirm'
 import Profile from '@/components/Profile'
 
@@ -15,7 +15,7 @@ export default new Router({
     { path: '/home', name: 'Home', component: Home },
     { path: '/signin', name: 'SignIn', component: SignIn },
     { path: '/register', name: 'Register', component: Register },
-    { path: '/reset', name: 'Reset', component: Reset },
+    { path: '/forgot', name: 'Forgot', component: Forgot },
     { path: '/confirm', name: 'Confirm', component: Confirm },
     { path: '/profile', name: 'Profile', component: Profile }
   ],

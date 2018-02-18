@@ -61,7 +61,7 @@
                     <span slot="loader">Connecting...</span>
                   </v-btn>
                   <div >
-                    <router-link :to="'/reset'">Forgot password?</router-link>
+                    <router-link :to="'/forgot'">Forgot password?</router-link>
                   </div>
                 </v-card-text>
               </v-card>
@@ -153,7 +153,7 @@ export default {
       })
     },
     navRreset: function () {
-      router.push('/reset')
+      router.push('/forgot')
     },
     getMessage: function () {
       return this.message

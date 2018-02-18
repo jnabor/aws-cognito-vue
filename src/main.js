@@ -8,7 +8,7 @@ import AppLayout from './components/Layout.vue'
 import AppHome from './components/Home.vue'
 import AppSignin from './components/Signin.vue'
 import AppRegister from './components/Register.vue'
-import AppReset from './components/Reset.vue'
+import AppForgot from './components/Forgot.vue'
 import AppConfirm from './components/Confirm.vue'
 import { store } from './store/store'
 
@@ -33,7 +33,7 @@ Vue.component('app-layout', AppLayout)
 Vue.component('app-home', AppHome)
 Vue.component('app-signin', AppSignin)
 Vue.component('app-register', AppRegister)
-Vue.component('app-reset', AppReset)
+Vue.component('app-forgot', AppForgot)
 Vue.component('app-confirm', AppConfirm)
 
 /* eslint-disable no-new */
