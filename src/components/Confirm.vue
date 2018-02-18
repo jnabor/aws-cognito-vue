@@ -118,7 +118,7 @@ export default {
   watch: {
     confirmed () {
       if (this.confirmed === true) {
-        router.push('/signin')
+        router.push('/registered')
       }
     },
     errcode () {

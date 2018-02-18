@@ -8,8 +8,10 @@ import AppLayout from './components/Layout.vue'
 import AppHome from './components/Home.vue'
 import AppSignin from './components/Signin.vue'
 import AppRegister from './components/Register.vue'
+import AppRegistered from './components/Registered.vue'
 import AppForgot from './components/Forgot.vue'
 import AppConfirm from './components/Confirm.vue'
+import AppChanged from './components/Changed.vue'
 import { store } from './store/store'
 
 // index.js or main.js
@@ -33,8 +35,10 @@ Vue.component('app-layout', AppLayout)
 Vue.component('app-home', AppHome)
 Vue.component('app-signin', AppSignin)
 Vue.component('app-register', AppRegister)
+Vue.component('app-registered', AppRegistered)
 Vue.component('app-forgot', AppForgot)
 Vue.component('app-confirm', AppConfirm)
+Vue.component('app-changed', AppChanged)
 
 /* eslint-disable no-new */
 new Vue({

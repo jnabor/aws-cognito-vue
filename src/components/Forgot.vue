@@ -117,7 +117,6 @@ export default {
   data: () => ({
     codesent: false,
     callback: false,
-    confirmed: false,
     showerr: false,
     errcode: '',
     errmsg: '',
@@ -166,7 +165,7 @@ export default {
           console.log('forgot password confirmed: ' + JSON.stringify(data))
           this[l] = false
           this.loader = null
-          router.push('/signin')
+          router.push('/changed')
         },
         onFailure: (err) => {
           var code = JSON.stringify(err.code)
@@ -217,11 +216,6 @@ export default {
     }
   },
   watch: {
-    confirmed () {
-      if (this.confirmed === true) {
-        router.push('/signin')
-      }
-    },
     errcode () {
       console.log('watched error code: ' + this.errcode)
       if (this.errcode !== '') {

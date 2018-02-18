@@ -4,7 +4,9 @@
     <section>
       <v-layout column align-center justify-center>
         <img class="aws-logo mt-5 mb-4" src="../../static/aws_cognito_vue.png">
-        <h3 v-if="$store.state.authenticated" class="mb-3 text-xs-center grey--text hidden-xs-only">You have signed in!</h3>
+        <v-alert v-if="$store.state.authenticated" outline type="success" class="mt-4 mb-4" :value="true">
+          <div class="title mt-2 mb-2">You have signed in.</div>
+        </v-alert>
         <v-btn v-if="$store.state.authenticated" @click="navSignOut()" color="amber accent-3" dark large>Sign Out</v-btn>
       </v-layout>
     </section>
