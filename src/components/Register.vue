@@ -1,20 +1,16 @@
 <template>
   <v-container grid-list-md class="mt-3">
-    <v-layout row justify-space-around>
-
-        <v-card class="main-card pa-4 ml-4 mr-4">
-          <v-layout row wrap justify-space-around>
-
-            <v-flex md1 class="hidden-sm-and-down">
-            </v-flex>
-            <v-flex md4 class="hidden-sm-and-down">
-              <v-card class="elevation-0 pa-2">
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card class="pa-4 ml-4 mr-4">
+          <v-layout row justify-center>
+            <v-flex md4 class="hidden-xs-only">
+              <v-card class="elevation-0 pa-2 mr-4">
                 <v-card-media >
                 <img class="aws-logo" src="../../static/aws_cognito.png">
                 </v-card-media>
               </v-card>
             </v-flex>
-
             <v-flex md6>
               <v-card class="elevation-0 pa-2 ml-1 mr-1">
                 <v-alert outline type="error" dismissible class="ml-3 mr-3" v-model="showerr">
@@ -65,12 +61,9 @@
                 </v-card-text>
               </v-card>
             </v-flex>
-            <v-flex md1 class="hidden-sm-and-down">
-            </v-flex>
-
-         </v-layout>
+          </v-layout>
         </v-card>
-
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
