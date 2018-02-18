@@ -1,6 +1,6 @@
 # aws-cognito-vue
 
-#h AUTHENTICATION DEMO
+## AUTHENTICATION DEMO
 ## Authentication with AWS Cognito using Vue.js
 
 ### Features
