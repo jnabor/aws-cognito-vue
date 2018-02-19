@@ -7,7 +7,9 @@
         <v-alert v-if="$store.state.authenticated" outline type="success" class="mt-4 mb-4" :value="true">
           <div class="title mt-2 mb-2">You have signed in.</div>
         </v-alert>
+        <transition appear name="fadeout">
         <v-btn v-if="$store.state.authenticated" @click="navSignOut()" color="amber accent-3" dark large>Sign Out</v-btn>
+        </transition>
       </v-layout>
     </section>
 

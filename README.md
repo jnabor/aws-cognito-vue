@@ -16,6 +16,13 @@ http://auth-cognito-demo.s3-website-ap-southeast-1.amazonaws.com/
 
 ## Build Setup
 
+add src/components/config.js file to contain the following:
+export const poolData = {
+  UserPoolId: '<your user pool id>',
+  ClientId: '<your client id>'
+}
+
+
 ``` bash
 # install dependencies
 $ npm install

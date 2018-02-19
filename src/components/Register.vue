@@ -12,6 +12,7 @@
               </v-card>
             </v-flex>
             <v-flex xl4 lg5 md6 sm6>
+              <transition appear name="fadeout">
               <v-card class="elevation-0 pa-2 ml-1 mr-1">
                 <v-alert outline type="error" dismissible class="ml-3 mr-3" v-model="showerr">
                   {{ errmsg }}
@@ -60,6 +61,7 @@
                   </div>
                 </v-card-text>
               </v-card>
+              </transition>
             </v-flex>
           </v-layout>
         </v-card>

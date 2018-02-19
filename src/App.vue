@@ -19,4 +19,11 @@ body {
   padding: 0px;
 }
 
+.fadeout-enter-active, .fadeout-leave-active {
+  transition: opacity 1s;
+}
+.fadeout-enter, .fadeout-leave-to {
+  opacity: 0;
+}
+
 </style>
