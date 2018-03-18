@@ -22,7 +22,7 @@ http://sonabstudios.com/
    - [x] Refresh token periodically
    - [ ] Custom workflow (via lambda)
 3. Sign Out
-   - [x]invalidate session
+   - [x] invalidate session
 4. Password Update
    - [x] reset or change password
 5. Attributes
