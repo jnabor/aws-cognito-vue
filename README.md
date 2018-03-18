@@ -13,7 +13,7 @@ http://sonabstudios.com/
 ### Features
 1. Sign Up
    - [x] register with email and password
-   - [x]Confirmation code sent to email
+   - [x] Confirmation code sent to email
    - [x] Confirmation code verification
    - [ ] Custom workflow (via lambda)
    - [ ] SMS verification option
