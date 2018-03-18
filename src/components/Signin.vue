@@ -71,8 +71,6 @@ import router from '../routes'
 import * as config from './config'
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js')
 
-var userPool = []
-
 export default {
   data: function () {
     return {
@@ -112,18 +110,17 @@ export default {
       console.log('auth data: ' + authenticationData.Username + ' ' + authenticationData.Password)
       var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData)
 
-      userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
+      this.$store.state.userPool = new AmazonCognitoIdentity.CognitoUserPool(config.poolData)
       var userData = {
         Username: this.email,
-        Pool: userPool
+        Pool: this.$store.state.userPool
       }
-      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
-      cognitoUser.authenticateUser(authenticationDetails, {
+      this.$store.state.cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+      this.$store.state.cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {
           if (!this.callback) {
             this.callback = true
-            console.log('sign in success with token: ' + result.getIdToken().getJwtToken())
-            this.$store.state.token = result.getIdToken().getJwtToken()
+            console.log('sign in success')
             this.$store.state.authenticated = true
             this.$store.state.username = this.email
             this.username = this.email
