@@ -79,6 +79,13 @@
 <script>
 import router from '../routes'
 
+// cognito API authorizer
+// get session and added in 'Authorization' header
+// session.getIdTOken().getJwtToken()
+// post boddy mapping
+// add
+// "userID" : "$context.authorizer.claims.sub"
+
 export default {
   data: () => ({
     username: ''
