@@ -1,5 +1,5 @@
 # aws-cognito-vue
-
+# Note: This project has been depeciated and no longer maintained. Please refer to my new project https://github.com/sonabstudios/aws-cognito-attributes
 ## AUTHENTICATION DEMO
 ## Authentication with AWS Cognito using Vue.js
 ### This is a boilerplate project for Vuejs applications using AWS cognito
